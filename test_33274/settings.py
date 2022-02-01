@@ -14,10 +14,10 @@ import os
 import io
 import environ
 import logging
-import google.auth
-from google.cloud import secretmanager
-from google.auth.exceptions import DefaultCredentialsError
-from google.api_core.exceptions import PermissionDenied
+# import google.auth
+# from google.cloud import secretmanager
+# from google.auth.exceptions import DefaultCredentialsError
+# from google.api_core.exceptions import PermissionDenied
 from modules.manifest import get_modules
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -75,15 +75,15 @@ THIRD_PARTY_APPS = [
     "rest_framework.authtoken",
     "rest_auth",
     "rest_auth.registration",
-    "bootstrap4",
-    "allauth",
-    "allauth.account",
-    "allauth.socialaccount",
-    "allauth.socialaccount.providers.google",
+    # "bootstrap4",
+    # "allauth",
+    # "allauth.account",
+    # "allauth.socialaccount",
+    # "allauth.socialaccount.providers.google",
     "django_extensions",
     "drf_yasg",
     "storages",
-    'widget_tweaks',
+    #'widget_tweaks',
 ]
 MODULES_APPS = get_modules()
 
@@ -180,22 +180,22 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # allauth / users
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_AUTHENTICATION_METHOD = "email"
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_EMAIL_VERIFICATION = "optional"
-ACCOUNT_CONFIRM_EMAIL_ON_GET = True
-ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
-ACCOUNT_UNIQUE_EMAIL = True
+# ACCOUNT_EMAIL_REQUIRED = True
+# ACCOUNT_AUTHENTICATION_METHOD = "email"
+# ACCOUNT_USERNAME_REQUIRED = True
+# ACCOUNT_EMAIL_VERIFICATION = "optional"
+# ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+# ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+#ACCOUNT_UNIQUE_EMAIL = True
 #LOGIN_REDIRECT_URL = "users:redirect"
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
-ACCOUNT_ADAPTER = "users.adapters.AccountAdapter"
-SOCIALACCOUNT_ADAPTER = "users.adapters.SocialAccountAdapter"
-ACCOUNT_ALLOW_REGISTRATION = env.bool("ACCOUNT_ALLOW_REGISTRATION", True)
-SOCIALACCOUNT_ALLOW_REGISTRATION = env.bool("SOCIALACCOUNT_ALLOW_REGISTRATION", True)
+# ACCOUNT_ADAPTER = "users.adapters.AccountAdapter"
+# SOCIALACCOUNT_ADAPTER = "users.adapters.SocialAccountAdapter"
+# ACCOUNT_ALLOW_REGISTRATION = env.bool("ACCOUNT_ALLOW_REGISTRATION", True)
+# SOCIALACCOUNT_ALLOW_REGISTRATION = env.bool("SOCIALACCOUNT_ALLOW_REGISTRATION", True)
 
 REST_AUTH_SERIALIZERS = {
     # Replace password reset serializer to fix 500 error
@@ -207,13 +207,13 @@ REST_AUTH_REGISTER_SERIALIZERS = {
 }
 
 # Custom user model
-SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
+# SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
 
-EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_HOST_USER = 'apikey' # this is exactly the value 'apikey'
-EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+# EMAIL_HOST = 'smtp.sendgrid.net'
+# EMAIL_HOST_USER = 'apikey' # this is exactly the value 'apikey'
+# EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
 # EMAIL_HOST = env.str("EMAIL_HOST", "smtp.sendgrid.net")
 # EMAIL_HOST_USER = env.str("SENDGRID_USERNAME", "")
 # EMAIL_HOST_PASSWORD = env.str("SENDGRID_PASSWORD", "")
@@ -251,13 +251,13 @@ SWAGGER_SETTINGS = {
     "DEFAULT_INFO": f"{ROOT_URLCONF}.api_info",
 }
 
-if DEBUG or not (EMAIL_HOST_USER and EMAIL_HOST_PASSWORD):
-    # output email to console instead of sending
-    if not DEBUG:
-        logging.warning(
-            "You should setup `SENDGRID_USERNAME` and `SENDGRID_PASSWORD` env vars to send emails."
-        )
-    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# if DEBUG: #or not (EMAIL_HOST_USER and EMAIL_HOST_PASSWORD)
+#     # output email to console instead of sending
+#     if not DEBUG:
+#         logging.warning(
+#             "You should setup `SENDGRID_USERNAME` and `SENDGRID_PASSWORD` env vars to send emails."
+#         )
+#     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 
 # GCP config
