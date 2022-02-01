@@ -83,6 +83,7 @@ THIRD_PARTY_APPS = [
     "django_extensions",
     "drf_yasg",
     "storages",
+    'widget_tweaks',
 ]
 MODULES_APPS = get_modules()
 
@@ -186,7 +187,10 @@ ACCOUNT_EMAIL_VERIFICATION = "optional"
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 ACCOUNT_UNIQUE_EMAIL = True
-LOGIN_REDIRECT_URL = "users:redirect"
+#LOGIN_REDIRECT_URL = "users:redirect"
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
 
 ACCOUNT_ADAPTER = "users.adapters.AccountAdapter"
 SOCIALACCOUNT_ADAPTER = "users.adapters.SocialAccountAdapter"
@@ -203,13 +207,18 @@ REST_AUTH_REGISTER_SERIALIZERS = {
 }
 
 # Custom user model
-AUTH_USER_MODEL = "users.User"
+SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
 
-EMAIL_HOST = env.str("EMAIL_HOST", "smtp.sendgrid.net")
-EMAIL_HOST_USER = env.str("SENDGRID_USERNAME", "")
-EMAIL_HOST_PASSWORD = env.str("SENDGRID_PASSWORD", "")
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'apikey' # this is exactly the value 'apikey'
+EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+# EMAIL_HOST = env.str("EMAIL_HOST", "smtp.sendgrid.net")
+# EMAIL_HOST_USER = env.str("SENDGRID_USERNAME", "")
+# EMAIL_HOST_PASSWORD = env.str("SENDGRID_PASSWORD", "")
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
 
 
 # AWS S3 config
