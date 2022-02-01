@@ -24,14 +24,14 @@ class Video(models.Model):
         blank=True,
     )
     youtube_id = models.CharField(
-        max_length=256,
         null=True,
         blank=True,
+        max_length=256,
     )
     hall = models.ForeignKey(
         "home.Hall",
-        on_delete=models.CASCADE,
         null=True,
         blank=True,
+        on_delete=models.CASCADE,
         related_name="video_hall",
     )
