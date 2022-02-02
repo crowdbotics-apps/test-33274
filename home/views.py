@@ -13,7 +13,7 @@ import urllib
 import requests
 
 
-YOUTUBE_API_KEY = 'AIzaSyBGDpk6P9HFC-085I5xo-3ZM7RfMbY8Kzo'
+YOUTUBE_API_KEY = 'insert youtube api key here'
 
 
 def home(request):
