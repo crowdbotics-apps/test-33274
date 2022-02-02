@@ -114,3 +114,6 @@ Admin Panel can be accessed through http://localhost:8000/admin/. If you are the
 ## API Documentation
 
 API Documentation is generated automatically and can be access through http://localhost:8000/api-docs/. Please make sure you are signed in to the admin panel before navigating to this page.
+
+
+update Pipfile using     pipenv lock --requirements
