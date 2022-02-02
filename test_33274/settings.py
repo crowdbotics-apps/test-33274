@@ -64,18 +64,16 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "django.contrib.sites",
 ]
 LOCAL_APPS = [
     "home",
-    "users.apps.UsersConfig",
 ]
 THIRD_PARTY_APPS = [
-    "rest_framework",
-    "rest_framework.authtoken",
-    "rest_auth",
-    "rest_auth.registration",
-    "bootstrap4",
+    #"rest_framework",
+    #"rest_framework.authtoken",
+    #"rest_auth",
+    #"rest_auth.registration",
+    #"bootstrap4",
     # "allauth",
     # "allauth.account",
     # "allauth.socialaccount",
@@ -108,10 +106,10 @@ TEMPLATES = [
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
-                "django.template.context_processors.debug",
-                "django.template.context_processors.request",
-                "django.contrib.auth.context_processors.auth",
-                "django.contrib.messages.context_processors.messages",
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
             ],
         },
     },
@@ -197,16 +195,18 @@ LOGOUT_REDIRECT_URL = 'home'
 # ACCOUNT_ALLOW_REGISTRATION = env.bool("ACCOUNT_ALLOW_REGISTRATION", True)
 # SOCIALACCOUNT_ALLOW_REGISTRATION = env.bool("SOCIALACCOUNT_ALLOW_REGISTRATION", True)
 
-REST_AUTH_SERIALIZERS = {
-    # Replace password reset serializer to fix 500 error
-    "PASSWORD_RESET_SERIALIZER": "home.api.v1.serializers.PasswordSerializer",
-}
-REST_AUTH_REGISTER_SERIALIZERS = {
-    # Use custom serializer that has no username and matches web signup
-    "REGISTER_SERIALIZER": "home.api.v1.serializers.SignupSerializer",
-}
+# REST_AUTH_SERIALIZERS = {
+#     # Replace password reset serializer to fix 500 error
+#     "PASSWORD_RESET_SERIALIZER": "home.api.v1.serializers.PasswordSerializer",
+# }
+# REST_AUTH_REGISTER_SERIALIZERS = {
+#     # Use custom serializer that has no username and matches web signup
+#     "REGISTER_SERIALIZER": "home.api.v1.serializers.SignupSerializer",
+# }
 
 # Custom user model
+#AUTH_USER_MODEL = "users.User"
+
 # SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
 
 # EMAIL_HOST = 'smtp.sendgrid.net'
