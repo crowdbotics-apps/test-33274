@@ -247,9 +247,9 @@ if USE_S3:
     MEDIA_ROOT = os.path.join(BASE_DIR, "mediafiles")
 
 # Swagger settings for api docs
-SWAGGER_SETTINGS = {
-    "DEFAULT_INFO": f"{ROOT_URLCONF}.api_info",
-}
+# SWAGGER_SETTINGS = {
+   # "DEFAULT_INFO": f"{ROOT_URLCONF}.api_info",
+# }
 
 # if DEBUG: #or not (EMAIL_HOST_USER and EMAIL_HOST_PASSWORD)
 #     # output email to console instead of sending
