@@ -11,9 +11,10 @@ from django.http import Http404, JsonResponse
 from django.forms.utils import ErrorList
 import urllib
 import requests
+from django.conf import settings
 
 
-YOUTUBE_API_KEY = 'insert youtube api key here'
+YOUTUBE_API_KEY = settings.YOUTUBE_API_KEY
 
 
 def home(request):
@@ -79,17 +80,17 @@ class DeleteVideo(LoginRequiredMixin, generic.DeleteView):
             raise Http404
         return video 
 
-class SignUp(generic.CreateView):
-    form_class = UserCreationForm
-    success_url = reverse_lazy('home')
-    template_name = 'registration/signup.html'
+# class SignUp(generic.CreateView):
+#     form_class = UserCreationForm
+#     success_url = reverse_lazy('home')
+#     template_name = 'registration/signup.html'
 
-    def form_valid(self, form):
-        view = super(SignUp, self).form_valid(form)
-        username, password = form.cleaned_data.get('username'), form.cleaned_data.get('password1')
-        user = authenticate(username=username, password=password)
-        login(self.request, user)
-        return view
+#     def form_valid(self, form):
+#         view = super(SignUp, self).form_valid(form)
+#         username, password = form.cleaned_data.get('username'), form.cleaned_data.get('password1')
+#         user = authenticate(username=username, password=password)
+#         login(self.request, user)
+#         return view
 
 class CreateHall(LoginRequiredMixin, generic.CreateView):
     model = Hall
