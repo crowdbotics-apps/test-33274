@@ -1,15 +1,15 @@
-from django.contrib.auth import views as auth_views
 from home import views
-from django.urls import path
+from django.urls import path, include
 
 urlpatterns = [
     path('', views.home, name='home'),
     path('dashboard', views.dashboard, name='dashboard'),
 
     #Auth
-    path('signup', views.SignUp.as_view(),name='signup'),
-    path('login', auth_views.LoginView.as_view(), name='login'),
-    path('logout', auth_views.LogoutView.as_view(), name='logout'),
+    path('accounts/', include('allauth.urls')),
+    # path('signup', views.SignUp.as_view(),name='signup'),
+    # path('login', auth_views.LoginView.as_view(), name='login'),
+    # path('logout', auth_views.LogoutView.as_view(), name='logout'),
 
     # Hall
     path('halloffame/create', views.CreateHall.as_view(), name='create_hall'),

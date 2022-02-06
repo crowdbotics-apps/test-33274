@@ -18,7 +18,7 @@ import logging
 # from google.cloud import secretmanager
 # from google.auth.exceptions import DefaultCredentialsError
 # from google.api_core.exceptions import PermissionDenied
-from modules.manifest import get_modules
+#from modules.manifest import get_modules
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -49,7 +49,6 @@ DEBUG = env.bool("DEBUG", default=False)
 SECRET_KEY = env.str("SECRET_KEY")
 
 ALLOWED_HOSTS = env.list("HOST", default=["*"])
-SITE_ID = 1
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 SECURE_SSL_REDIRECT = env.bool("SECURE_REDIRECT", default=False)
@@ -64,28 +63,18 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-]
-LOCAL_APPS = [
-    "home",
-]
-THIRD_PARTY_APPS = [
-    #"rest_framework",
-    #"rest_framework.authtoken",
-    #"rest_auth",
-    #"rest_auth.registration",
-    #"bootstrap4",
-    # "allauth",
-    # "allauth.account",
-    # "allauth.socialaccount",
-    # "allauth.socialaccount.providers.google",
-    "django_extensions",
-    "drf_yasg",
-    "storages",
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
+    'storages',
+    'home',
     'widget_tweaks',
 ]
-MODULES_APPS = get_modules()
 
-INSTALLED_APPS += LOCAL_APPS + THIRD_PARTY_APPS + MODULES_APPS
+SITE_ID = 7
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -97,12 +86,20 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+AUTHENTICATION_BACKENDS = [
+
+    'django.contrib.auth.backends.ModelBackend',
+
+    'allauth.account.auth_backends.AuthenticationBackend',
+
+]
+
 ROOT_URLCONF = "test_33274.urls"
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(BASE_DIR, 'home/templates'),os.path.join(BASE_DIR, 'account/templates')],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -128,9 +125,47 @@ DATABASES = {
     }
 }
 
+
 if env.str("DATABASE_URL", default=None):
     DATABASES = {"default": env.db()}
 
+
+SOCIALACCOUNT_PROVIDERS = {
+    'facebook': {
+        'METHOD': 'oauth2',
+        'SDK_URL': '//connect.facebook.net/{locale}/sdk.js',
+        'SCOPE': ['email','public_profile'],
+        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'INIT_PARAMS': {'cookie': True},
+        'FIELDS': [
+            'id',
+            'email',
+            'first_name',
+            'last_name',
+            'middle name',
+            'name',
+            'name_format',
+            'short_name',
+            'gender',
+        ],
+ 
+        'EXCHANGE_TOKEN': True,
+        'LOCALE_FUNC': lambda request: 'en_US',
+        'VERIFIED_EMAIL': False,
+        'VERSION': 'v7.0',
+    },
+
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -168,25 +203,25 @@ STATIC_URL = "/static/"
 
 MIDDLEWARE += ["whitenoise.middleware.WhiteNoiseMiddleware"]
 
-AUTHENTICATION_BACKENDS = (
-    "django.contrib.auth.backends.ModelBackend",
-    #"allauth.account.auth_backends.AuthenticationBackend",
-)
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
+
+
 # allauth / users
-# ACCOUNT_EMAIL_REQUIRED = True
-# ACCOUNT_AUTHENTICATION_METHOD = "email"
-# ACCOUNT_USERNAME_REQUIRED = True
-# ACCOUNT_EMAIL_VERIFICATION = "optional"
-# ACCOUNT_CONFIRM_EMAIL_ON_GET = True
-# ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
-#ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
+ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
+ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 86400
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+ACCOUNT_UNIQUE_EMAIL = True
 #LOGIN_REDIRECT_URL = "users:redirect"
-LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
@@ -204,65 +239,68 @@ LOGOUT_REDIRECT_URL = 'home'
 #     "REGISTER_SERIALIZER": "home.api.v1.serializers.SignupSerializer",
 # }
 
-# Custom user model
+YOUTUBE_API_KEY = os.getenv('YOUTUBE_API_KEY')
+
+#Custom user model
 #AUTH_USER_MODEL = "users.User"
+#EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'EMAIL_HOST_USER'
+EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+# DEFAULT_FROM_EMAIL = 'hamdi@crowdbotics.com' 
+# EMAIL_FROM='hamdi@crowdbotics.com'
 
-# SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
 
-# EMAIL_HOST = 'smtp.sendgrid.net'
-# EMAIL_HOST_USER = 'apikey' # this is exactly the value 'apikey'
-# EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_HOST = env.str("EMAIL_HOST", "smtp.sendgrid.net")
-# EMAIL_HOST_USER = env.str("SENDGRID_USERNAME", "")
-# EMAIL_HOST_PASSWORD = env.str("SENDGRID_PASSWORD", "")
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
+
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # AWS S3 config
-AWS_ACCESS_KEY_ID = env.str("AWS_ACCESS_KEY_ID", "")
-AWS_SECRET_ACCESS_KEY = env.str("AWS_SECRET_ACCESS_KEY", "")
-AWS_STORAGE_BUCKET_NAME = env.str("AWS_STORAGE_BUCKET_NAME", "")
-AWS_STORAGE_REGION = env.str("AWS_STORAGE_REGION", "")
+# AWS_ACCESS_KEY_ID = env.str("AWS_ACCESS_KEY_ID", "")
+# AWS_SECRET_ACCESS_KEY = env.str("AWS_SECRET_ACCESS_KEY", "")
+# AWS_STORAGE_BUCKET_NAME = env.str("AWS_STORAGE_BUCKET_NAME", "")
+# AWS_STORAGE_REGION = env.str("AWS_STORAGE_REGION", "")
 
-USE_S3 = (
-    AWS_ACCESS_KEY_ID
-    and AWS_SECRET_ACCESS_KEY
-    and AWS_STORAGE_BUCKET_NAME
-    and AWS_STORAGE_REGION
-)
+# USE_S3 = (
+#     AWS_ACCESS_KEY_ID
+#     and AWS_SECRET_ACCESS_KEY
+#     and AWS_STORAGE_BUCKET_NAME
+#     and AWS_STORAGE_REGION
+# )
 
-if USE_S3:
-    AWS_S3_CUSTOM_DOMAIN = env.str("AWS_S3_CUSTOM_DOMAIN", "")
-    AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=86400"}
-    AWS_DEFAULT_ACL = env.str("AWS_DEFAULT_ACL", "public-read")
-    AWS_MEDIA_LOCATION = env.str("AWS_MEDIA_LOCATION", "media")
-    AWS_AUTO_CREATE_BUCKET = env.bool("AWS_AUTO_CREATE_BUCKET", True)
-    DEFAULT_FILE_STORAGE = env.str(
-        "DEFAULT_FILE_STORAGE", "home.storage_backends.MediaStorage"
-    )
-    MEDIA_URL = "/mediafiles/"
-    MEDIA_ROOT = os.path.join(BASE_DIR, "mediafiles")
+# if USE_S3:
+#     AWS_S3_CUSTOM_DOMAIN = env.str("AWS_S3_CUSTOM_DOMAIN", "")
+#     AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=86400"}
+#     AWS_DEFAULT_ACL = env.str("AWS_DEFAULT_ACL", "public-read")
+#     AWS_MEDIA_LOCATION = env.str("AWS_MEDIA_LOCATION", "media")
+#     AWS_AUTO_CREATE_BUCKET = env.bool("AWS_AUTO_CREATE_BUCKET", True)
+#     DEFAULT_FILE_STORAGE = env.str(
+#         "DEFAULT_FILE_STORAGE", "home.storage_backends.MediaStorage"
+#     )
+#     MEDIA_URL = "/mediafiles/"
+#     MEDIA_ROOT = os.path.join(BASE_DIR, "mediafiles")
 
-# Swagger settings for api docs
-SWAGGER_SETTINGS = {
-    "DEFAULT_INFO": f"{ROOT_URLCONF}.api_info",
-}
+# # Swagger settings for api docs
+# SWAGGER_SETTINGS = {
+#     "DEFAULT_INFO": f"{ROOT_URLCONF}.api_info",
+# }
 
-# if DEBUG: #or not (EMAIL_HOST_USER and EMAIL_HOST_PASSWORD)
-#     # output email to console instead of sending
-#     if not DEBUG:
-#         logging.warning(
-#             "You should setup `SENDGRID_USERNAME` and `SENDGRID_PASSWORD` env vars to send emails."
-#         )
-#     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# # if DEBUG: #or not (EMAIL_HOST_USER and EMAIL_HOST_PASSWORD)
+# #     # output email to console instead of sending
+# #     if not DEBUG:
+# #         logging.warning(
+# #             "You should setup `SENDGRID_USERNAME` and `SENDGRID_PASSWORD` env vars to send emails."
+# #         )
+# #     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 
-# GCP config
-GS_BUCKET_NAME = env.str("GS_BUCKET_NAME", "")
-if GS_BUCKET_NAME:
-    DEFAULT_FILE_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
-    STATICFILES_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
-    GS_DEFAULT_ACL = "publicRead"
+# # GCP config
+# GS_BUCKET_NAME = env.str("GS_BUCKET_NAME", "")
+# if GS_BUCKET_NAME:
+#     DEFAULT_FILE_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
+#     STATICFILES_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
+#     GS_DEFAULT_ACL = "publicRead"
