@@ -246,12 +246,12 @@ YOUTUBE_API_KEY = os.getenv('YOUTUBE_API_KEY')
 #EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
 SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
 EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_HOST_USER = 'EMAIL_HOST_USER'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-# DEFAULT_FROM_EMAIL = 'hamdi@crowdbotics.com' 
-# EMAIL_FROM='hamdi@crowdbotics.com'
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 
 
