@@ -244,16 +244,23 @@ YOUTUBE_API_KEY = os.getenv('YOUTUBE_API_KEY')
 #Custom user model
 #AUTH_USER_MODEL = "users.User"
 #EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
-SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
-EMAIL_HOST = 'smtp.sendgrid.net'
+# SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
+# EMAIL_HOST = 'smtp.sendgrid.net'
+# EMAIL_HOST_USER = 'apikey'
+# EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+# DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
+# EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
+# SENDGRID_SANDBOX_MODE_IN_DEBUG = False
+
+
+EMAIL_HOST = env.str("EMAIL_HOST")
 EMAIL_HOST_USER = 'apikey'
-EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
-EMAIL_USE_TLS = True
+EMAIL_HOST_PASSWORD = env.str("SENDGRID_API_KEY")
 EMAIL_PORT = 587
-DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
-
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = env.str('EMAIL_BACKEND')
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
