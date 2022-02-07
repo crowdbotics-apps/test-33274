@@ -21,6 +21,9 @@ def home(request):
     recent_halls = Hall.objects.all().order_by('-id')[:3]
     return render(request, 'home/home.html', {'recent_halls': recent_halls})
 
+def yousuck(request):
+    return render(request, 'yousuck.html')
+
 @login_required
 def dashboard(request):
     halls = Hall.objects.filter(user=request.user)
