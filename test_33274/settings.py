@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
 ]
 
-SITE_ID = 10
+SITE_ID = 11
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
