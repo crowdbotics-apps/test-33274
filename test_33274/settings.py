@@ -192,14 +192,11 @@ LOGOUT_REDIRECT_URL = 'home'
 
 YOUTUBE_API_KEY = os.getenv('YOUTUBE_API_KEY')
 
-SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY') 
-
-EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_HOST_USER = 'apikey' # value of your apikey
-EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
+EMAIL_HOST = env.str("EMAIL_HOST", "smtp.sendgrid.net")
+EMAIL_HOST_USER = env.str("SENDGRID_USERNAME", "")
+EMAIL_HOST_PASSWORD = env.str("SENDGRID_PASSWORD", "")
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-FROM = os.getenv("FROM")
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
