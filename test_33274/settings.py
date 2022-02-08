@@ -189,14 +189,6 @@ ACCOUNT_UNIQUE_EMAIL = True
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
-# REST_AUTH_SERIALIZERS = {
-#     # Replace password reset serializer to fix 500 error
-#     "PASSWORD_RESET_SERIALIZER": "home.api.v1.serializers.PasswordSerializer",
-# }
-# REST_AUTH_REGISTER_SERIALIZERS = {
-#     # Use custom serializer that has no username and matches web signup
-#     "REGISTER_SERIALIZER": "home.api.v1.serializers.SignupSerializer",
-# }
 
 YOUTUBE_API_KEY = os.getenv('YOUTUBE_API_KEY')
 
@@ -207,54 +199,46 @@ EMAIL_HOST_USER = 'apikey' # value of your apikey
 EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-FROM_EMAIL = os.getenv("FROM_EMAIL")
-DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
+FROM_EMAIL = env.str("FROM_EMAIL")
+DEFAULT_FROM_EMAIL = env.str("DEFAULT_FROM_EMAIL")
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-# AWS S3 config
-# AWS_ACCESS_KEY_ID = env.str("AWS_ACCESS_KEY_ID", "")
-# AWS_SECRET_ACCESS_KEY = env.str("AWS_SECRET_ACCESS_KEY", "")
-# AWS_STORAGE_BUCKET_NAME = env.str("AWS_STORAGE_BUCKET_NAME", "")
-# AWS_STORAGE_REGION = env.str("AWS_STORAGE_REGION", "")
-
-# USE_S3 = (
-#     AWS_ACCESS_KEY_ID
-#     and AWS_SECRET_ACCESS_KEY
-#     and AWS_STORAGE_BUCKET_NAME
-#     and AWS_STORAGE_REGION
-# )
-
-# if USE_S3:
-#     AWS_S3_CUSTOM_DOMAIN = env.str("AWS_S3_CUSTOM_DOMAIN", "")
-#     AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=86400"}
-#     AWS_DEFAULT_ACL = env.str("AWS_DEFAULT_ACL", "public-read")
-#     AWS_MEDIA_LOCATION = env.str("AWS_MEDIA_LOCATION", "media")
-#     AWS_AUTO_CREATE_BUCKET = env.bool("AWS_AUTO_CREATE_BUCKET", True)
-#     DEFAULT_FILE_STORAGE = env.str(
-#         "DEFAULT_FILE_STORAGE", "home.storage_backends.MediaStorage"
-#     )
-#     MEDIA_URL = "/mediafiles/"
-#     MEDIA_ROOT = os.path.join(BASE_DIR, "mediafiles")
-
-# # Swagger settings for api docs
-# SWAGGER_SETTINGS = {
-#     "DEFAULT_INFO": f"{ROOT_URLCONF}.api_info",
-# }
-
-# # if DEBUG: #or not (EMAIL_HOST_USER and EMAIL_HOST_PASSWORD)
-# #     # output email to console instead of sending
-# #     if not DEBUG:
-# #         logging.warning(
-# #             "You should setup `SENDGRID_USERNAME` and `SENDGRID_PASSWORD` env vars to send emails."
-# #         )
-# #     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-
-
-# # GCP config
-# GS_BUCKET_NAME = env.str("GS_BUCKET_NAME", "")
-# if GS_BUCKET_NAME:
-#     DEFAULT_FILE_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
-#     STATICFILES_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
-#     GS_DEFAULT_ACL = "publicRead"
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': ('%(asctime)s [%(process)d] [%(levelname)s] '
+                       'pathname=%(pathname)s lineno=%(lineno)s '
+                       'funcname=%(funcName)s %(message)s'),
+            'datefmt': '%Y-%m-%d %H:%M:%S'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        }
+    },
+    'handlers': {
+        'null': {
+            'level': 'DEBUG',
+            'class': 'logging.NullHandler',
+        },
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    }
+}
