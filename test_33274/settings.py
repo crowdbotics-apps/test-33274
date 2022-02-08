@@ -9,7 +9,7 @@ env_file = os.path.join(BASE_DIR, ".env")
 env = environ.Env()
 env.read_env(env_file)
 
-DEBUG = env.bool("DEBUG", default=False)
+DEBUG = env.bool("DEBUG")
 
 SECRET_KEY = env.str("SECRET_KEY")
 
