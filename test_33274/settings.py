@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
 ]
 
-SITE_ID = 9
+SITE_ID = 10
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -183,8 +183,8 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 ACCOUNT_UNIQUE_EMAIL = True
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
 
 # REST_AUTH_SERIALIZERS = {
 #     # Replace password reset serializer to fix 500 error
