@@ -4,7 +4,6 @@ django-widget-tweaks
 django-environ
 django-allauth
 django-storages
-django-sendgrid-v5
 psycopg2
 waitress
 whitenoise
