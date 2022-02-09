@@ -204,8 +204,6 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 server = smtplib.SMTP(f'{EMAIL_HOST}:{EMAIL_PORT}')
 server.starttls()
 server.login(EMAIL_HOST_USER,EMAIL_HOST_PASSWORD)
-#server.sendmail(from_addr,to_addr,msg.as_string())
-server.quit()
 
 
 
