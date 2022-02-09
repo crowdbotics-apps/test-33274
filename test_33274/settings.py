@@ -2,6 +2,7 @@ import os
 import io
 import environ
 import logging
+import smtplib
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -192,12 +193,19 @@ LOGOUT_REDIRECT_URL = 'home'
 
 YOUTUBE_API_KEY = os.getenv('YOUTUBE_API_KEY')
 
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+
+server = smtplib.SMTP(f'{EMAIL_HOST}:{EMAIL_PORT}')
+server.starttls()
+server.login(EMAIL_HOST_USER,EMAIL_HOST_PASSWORD)
+#server.sendmail(from_addr,to_addr,msg.as_string())
+server.quit()
 
 
 
