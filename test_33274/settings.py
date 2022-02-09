@@ -191,10 +191,17 @@ LOGOUT_REDIRECT_URL = 'home'
 
 YOUTUBE_API_KEY = os.getenv('YOUTUBE_API_KEY')
 
-TRUSTIFI_KEY=os.getenv('TRUSTIFI_KEY', '')
-TRUSTIFI_SECRET=os.getenv('TRUSTIFI_SECRET', '')
-TRUSTIFI_URL=os.getenv('TRUSTIFI_URL', '')
+MAILTRAP_API_TOKEN=os.getenv('MAILTRAP_API_TOKEN')
 
+
+import requests
+response = requests.get(f"https://mailtrap.io/api/v1/inboxes.json?api_token={MAILTRAP_API_TOKEN}")
+credentials = response.json()[0]
+EMAIL_HOST = credentials['domain']
+EMAIL_HOST_USER = credentials['username']
+EMAIL_HOST_PASSWORD = credentials['password']
+EMAIL_PORT = credentials['smtp_ports'][0]
+EMAIL_USE_TLS = True
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
