@@ -195,7 +195,7 @@ MAILTRAP_API_TOKEN=os.getenv('MAILTRAP_API_TOKEN')
 
 
 import requests
-response = requests.get(f"https://mailtrap.io/api/v1/inboxes.json?api_token={MAILTRAP_API_TOKEN}")
+response = requests.get("https://mailtrap.io/api/v1/inboxes.json?api_token=<MAILTRAP_API_TOKEN>")
 credentials = response.json()[0]
 EMAIL_HOST = credentials['domain']
 EMAIL_HOST_USER = credentials['username']
