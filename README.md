@@ -1,6 +1,6 @@
 # test_33274
 
-This is a repository for a web application developed with Django, built with [Crowdbotics](https://crowdbotics.com)
+This is a repository for a web application developed with Django. I coded it from the scratch and deploy it using crowdbotics DevOps standards.
 
 ## Table of Contents
 
